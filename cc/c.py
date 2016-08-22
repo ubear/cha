@@ -105,7 +105,7 @@ class Cc(object):
         return '\n'.join(results)
 
 
-if __name__ == "__main__":
+def make_cli():
     cc = Cc()
     parser = argparse.ArgumentParser()
     parser.add_argument("word", help="search word", nargs='?', default="nothing")
@@ -121,3 +121,8 @@ if __name__ == "__main__":
         print cc.search(args.word)
     else:
         print u"输入格式有误。"
+
+
+if __name__ == "__main__":
+    make_cli()
+    

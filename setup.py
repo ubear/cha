@@ -5,7 +5,9 @@ setup(
     name="cc",
     version="0.1",
     license='MIT',
+    url='https://github.com/ubear/cha/',
     author="chyoo",
+    keywords='sample cli tool to translate English to Chinese',
     author_email="chyoo1991@gmail.com",
     packages=['cc'],
     include_package_data=True,
@@ -16,6 +18,10 @@ setup(
         'BeautifulSoup>=3.2.1',
         'sqlalchemy>=1.0.14',
     ],
+
+    package_data={
+        'cc':['words.db'],
+    },
 
     classifiers=[
 
@@ -32,5 +38,9 @@ setup(
     # that you indicate whether you support Python 2, Python 3 or both.
     'Programming Language :: Python :: 2.7',
     ],
-
+    entry_points={
+        'console_scripts': [
+            'c=cc.c:make_cli',
+        ],
+    },
 )
