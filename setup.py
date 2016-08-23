@@ -1,6 +1,8 @@
 from setuptools import setup
+from os.path import expanduser
 
 
+HOME = expanduser('~')
 setup(
     name="cc",
     version="0.1",
@@ -19,9 +21,11 @@ setup(
         'sqlalchemy>=1.0.14',
     ],
 
-    package_data={
-        'cc':['words.db'],
-    },
+    # package_data={
+    #    'cc':['words.db'],
+    #},
+
+    # data_files = [(HOME, ['.words.db'])],
 
     classifiers=[
 

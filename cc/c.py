@@ -108,7 +108,7 @@ class Cc(object):
 def make_cli():
     cc = Cc()
     parser = argparse.ArgumentParser()
-    parser.add_argument("word", help="search word", nargs='?', default="nothing")
+    parser.add_argument("word", help="search word", nargs='?', default="---")
     parser.add_argument("-t", "--top", help="show top N words of searching")
     parser.add_argument("-l", "--last", help="show the lastest N words of seaching")
     args = parser.parse_args()
@@ -117,10 +117,10 @@ def make_cli():
         print cc.top(args.top)
     elif args.last:
         print cc.last(args.last)
-    elif args.word:
-        print cc.search(args.word)
+    elif args.word == "---":
+        print "please input [c someword] to search."
     else:
-        print u"输入格式有误。"
+        print cc.search(args.word)
 
 
 if __name__ == "__main__":

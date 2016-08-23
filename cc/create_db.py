@@ -1,9 +1,11 @@
 import datetime
 from sqlalchemy import *
+from os.path import expanduser
 from sqlalchemy.ext.declarative import declarative_base
 
-
-db = create_engine('sqlite:///words.db')
+home = expanduser('~')
+db_url = 'sqlite:///' + home + "/.words.db"
+db = create_engine(db_url)
 Base = declarative_base()
 
 
