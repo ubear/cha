@@ -4,7 +4,7 @@ from os.path import expanduser
 
 HOME = expanduser('~')
 setup(
-    name="cc",
+    name="cha",
     version="0.1",
     license='MIT',
     url='https://github.com/ubear/cha/',
