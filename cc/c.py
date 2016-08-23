@@ -28,11 +28,8 @@ class Cc(object):
             line = "\t{:<6}{:<20}{:<6}".format(rd.id, rd.word, rd.number)
             results.append(line)
 
-
         return '\n'.join(results)
 
-    def _del(self, id, word=None):
-        pass
 
     def search(self, word):
         means = self._search_from_db(word)
@@ -104,19 +101,41 @@ class Cc(object):
 
         return '\n'.join(results)
 
+    def delete(self, id=None, word=None):
+        pro = u"ID:{id} WORD:{word} have deleted."
+
+        if id:
+            record = self.session.query(Record)\
+                    .filter(Record.id==id).first()
+        elif word:
+            record = self.session.query(Record)\
+                    .filter(Record.word==word).first()
+        else:
+            return
+        pro = pro.format(id=record.id, word=record.word)
+        self.session.delete(record)
+        self.session.commit()
+        return pro
+
 
 def make_cli():
     cc = Cc()
     parser = argparse.ArgumentParser()
     parser.add_argument("word", help="search word", nargs='?', default="---")
-    parser.add_argument("-t", "--top", help="show top N words of searching")
-    parser.add_argument("-l", "--last", help="show the lastest N words of seaching")
+    parser.add_argument("-t", "--top", help="show top N words of searching.")
+    parser.add_argument("-l", "--last", help="show the lastest N words of seaching.")
+    parser.add_argument("-di", "--delid", help="delele some word from db by word id.")
+    parser.add_argument("-dw", "--delword", help="delete some word by itself.")
     args = parser.parse_args()
 
     if args.top:
         print cc.top(args.top)
     elif args.last:
         print cc.last(args.last)
+    elif args.delid:
+        print cc.delete(id=args.delid)
+    elif args.delword:
+        print cc.delete(word=args.delword)
     elif args.word == "---":
         print "please input [c someword] to search."
     else:
@@ -125,4 +144,4 @@ def make_cli():
 
 if __name__ == "__main__":
     make_cli()
-    
+ 
