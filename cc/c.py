@@ -1,9 +1,9 @@
 #!/usr/bin/python
 #coding:utf-8
-import sys
-import requests
-import datetime
 import argparse
+import datetime
+import requests
+import sys
 from bs4 import BeautifulSoup
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import desc
@@ -15,7 +15,7 @@ from create_db import db
 class Cc(object):
 
     def __init__(self):
-        self.session = sessionmaker(db)() 
+        self.session = sessionmaker(db)()
 
     def top(self, num=10):
         # return top num words that user search
@@ -39,14 +39,12 @@ class Cc(object):
 
 
     def _search_from_db(self, word):
-        # search for db
          record = self.session.query(Record)\
                  .filter(Record.word==word).first()
 
          means = None
          if record:
              means = record.means
-             # update record number and uptime
              record.number += 1
              record.uptime = datetime.datetime.now()
              self.session.commit()
@@ -59,7 +57,7 @@ class Cc(object):
         try:
             html = requests.get(url).text
         except Exception as e:
-            return u"网络存在问题，请稍后再试。"
+            return u"Network has some trouble, please try later."
 
         soup = BeautifulSoup(html)
         error_zone = soup.find('div', attrs={'class': "error-typo"})
@@ -71,20 +69,22 @@ class Cc(object):
             avaiable_words = error_zone.find_all('a')
             for w in avaiable_words:
                 results.append("\t\t\t" + w.string)
-            return results
+            return '\n'.join(results)
 
         try:
             word_zone = soup.find('div',
                     attrs={"class": "trans-container"})
             lis = word_zone.find('ul').find_all('li')
-            for item in lis:
-                results.append(item.string)
-            results = '\n'.join(results)
-            record = Record(word=word, means=results)
-            self.session.add(record)
-            self.session.commit()
         except Exception as e:
-            return u'\n没有找到单词，请自行搜索。'
+            return u'\nNot find the word, please seach by yourself.'
+
+        for item in lis:
+            results.append(item.string)
+
+        results = '\n'.join(results)
+        record = Record(word=word, means=results)
+        self.session.add(record)
+        self.session.commit()
         return results
 
     def last(self, num=10):
@@ -96,7 +96,8 @@ class Cc(object):
         title = "\n\t{:<6}{:<20}{:<20}\n".format("ID", "WORD", "UPDATE TIME")
         results.append(title)
         for rd in records:
-            line = "\t{:<6}{:<20}{:<20}".format(rd.id, rd.word, rd.uptime.strftime("%Y-%m-%d %H:%M:%S"))
+            line = "\t{:<6}{:<20}{:<20}".format(rd.id, rd.word,
+                    rd.uptime.strftime("%Y-%m-%d %H:%M:%S"))
             results.append(line)
 
         return '\n'.join(results)
