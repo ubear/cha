@@ -1,15 +1,13 @@
 from setuptools import setup
-from os.path import expanduser
 
 
-HOME = expanduser('~')
 setup(
     name="cha",
     version="0.1",
     license='MIT',
     url='https://github.com/ubear/cha/',
     author="chyoo",
-    keywords='sample cli tool to translate English to Chinese',
+    keywords='Sample cli tool to translate English to Chinese',
     author_email="chyoo1991@gmail.com",
     packages=['cc'],
     include_package_data=True,
@@ -20,12 +18,6 @@ setup(
         'BeautifulSoup>=3.2.1',
         'sqlalchemy>=1.0.14',
     ],
-
-    # package_data={
-    #    'cc':['words.db'],
-    #},
-
-    # data_files = [(HOME, ['.words.db'])],
 
     classifiers=[
 
