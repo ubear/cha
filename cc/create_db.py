@@ -1,6 +1,6 @@
 import datetime
-from sqlalchemy import *
 from os.path import expanduser
+from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 
 home = expanduser('~')
