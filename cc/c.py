@@ -59,7 +59,7 @@ class Cc(object):
         except Exception as e:
             return u"Network has some trouble, please try later."
 
-        soup = BeautifulSoup(html)
+        soup = BeautifulSoup(html,"html5lib")
         error_zone = soup.find('div', attrs={'class': "error-typo"})
         results = []
 
